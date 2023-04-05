@@ -90,7 +90,7 @@ MainTitle.Parent = BodyFrame
 MainTitle.BackgroundColor3 = Color3.fromRGB(68, 255, 0)
 MainTitle.Size = UDim2.new(0, 196, 0, 22)
 MainTitle.Font = Enum.Font.SourceSans
-MainTitle.Text = "quantumplaytpus30's GUI V4"
+MainTitle.Text = "9012eThaye's GUI V4"
 MainTitle.TextColor3 = Color3.fromRGB(0, 0, 0)
 MainTitle.TextSize = 14.000
 
