@@ -42,7 +42,7 @@ local GotoTargetButton = Instance.new("TextButton")
 local IdTargetButton = Instance.new("TextButton")
 local KillAllButton = Instance.new("TextButton")
 local BringAllButton = Instance.new("TextButton")
-local ViewTargetButton = Instance.new("TextButton")
+local KidnapButton = Instance.new("TextButton")
 local QuickTrollButton = Instance.new("TextButton")
 local ReloadButton = Instance.new("TextButton")
 local AdminButton = Instance.new("TextButton")
@@ -466,15 +466,15 @@ BringAllButton.Text = "Bring all"
 BringAllButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 BringAllButton.TextSize = 14.000
 
-ViewTargetButton.Name = "ViewTargetButton"
-ViewTargetButton.Parent = TrollFrame
-ViewTargetButton.BackgroundColor3 = Color3.fromRGB(0, 251, 255)
-ViewTargetButton.Position = UDim2.new(0.077922076, 0, 0.612324238, 0)
-ViewTargetButton.Size = UDim2.new(0, 55, 0, 14)
-ViewTargetButton.Font = Enum.Font.SourceSans
-ViewTargetButton.Text = "View"
-ViewTargetButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-ViewTargetButton.TextSize = 14.000
+KidnapButton.Name = "KidnapButton"
+KidnapButton.Parent = TrollFrame
+KidnapButton.BackgroundColor3 = Color3.fromRGB(0, 251, 255)
+KidnapButton.Position = UDim2.new(0.077922076, 0, 0.612324238, 0)
+KidnapButton.Size = UDim2.new(0, 55, 0, 14)
+KidnapButton.Font = Enum.Font.SourceSans
+KidnapButton.Text = "Kidnap"
+KidnapButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+KidnapButton.TextSize = 14.000
 
 QuickTrollButton.Name = "QuickTrollButton"
 QuickTrollButton.Parent = TrollFrame
@@ -5066,21 +5066,33 @@ function Fling()
 end
 FlingTargetButton.MouseButton1Down:Connect(Fling)
 local isSpectating = false
-function Spectate()
-	local cam = game.Workspace.CurrentCamera
-	local player = game.Players.LocalPlayer
-	local Target = TargetText.Text
-	if(isSpectating == false)then
-		isSpectating = true
-		ViewTargetButton.Text = "UnView"
-		cam.CameraSubject = player.Character.Humanoid
-	elseif(isSpectating == true)then
-		isSpectating = false
-		ViewTargetButton.Text = "View"
-		cam.CameraSubject = Target.Character.Humanoid
+function Kidnap()
+	game.Players.LocalPlayer:GetMouse().KeyDown:connect(function(key)
+	if key == 'z' then
+		local h = game.Players.LocalPlayer.Character.Humanoid:Clone()
+		local plr = game.Players.LocalPlayer.Character
+		local CF = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+		local lp = game.Players.LocalPlayer
+
+		h.Parent = game.Players.LocalPlayer.Character
+		h.Name = "Hum"
+
+		game.Players.LocalPlayer.Character.Humanoid:Destroy()
+
+		for _,v in pairs(game.Players.LocalPlayer:GetDescendants()) do
+		    if v.ClassName == "Tool" then
+			v.Parent = plr
+		    end
 	end
+	wait(.5)
+	tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(300, Enum.EasingStyle.Linear)
+
+	tween = tweenService:Create(game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(0, -1000, 0)})
+	tween:Play()
+	end
+	end)
 end
-ViewTargetButton.MouseButton1Down:Connect(Spectate)
+KidnapButton.MouseButton1Down:Connect(Kidnap)
 --stats
 function Apply()
 	local Player = game.Players.LocalPlayer
